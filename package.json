@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/vasylnrp/screen-cards/issues"
   },
-  "homepage": "https://github.com/vasylnrp/screen-cards#readme"
+  "homepage": "https://github.com/vasylnrp/screen-cards#readme",
+  "devDependencies": {
+    "aws-cdk": "^2.20.0",
+    "aws-cdk-lib": "^2.20.0",
+    "constructs": "^10.0.109",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  }
 }
