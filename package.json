@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -19,12 +19,16 @@
   "homepage": "https://github.com/vasylnrp/screen-cards#readme",
   "devDependencies": {
     "@types/node": "^17.0.23",
+    "@types/webpack": "^5.28.0",
     "aws-cdk": "^2.20.0",
     "aws-cdk-lib": "^2.20.0",
     "constructs": "^10.0.109",
     "esbuild": "^0.14.34",
+    "ts-loader": "^9.2.8",
     "ts-node": "^10.7.0",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
   },
   "dependencies": {
     "@types/uuid": "^8.3.4",

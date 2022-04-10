@@ -24,6 +24,12 @@ export class ScreenCardsStack extends Stack {
       handler: 'handler'
     });
 
+    const helloLambdaWebpack = new Function(this, 'helloLambdaWebpack', {
+      runtime: Runtime.NODEJS_14_X,
+      code: Code.fromAsset(join(__dirname, "..", "build", "nodeHelloLambda")),
+      handler: 'nodeHelloLambda.handler',
+    });
+
     const helloLambdaIntegration = new LambdaIntegration(helloLambda);
     const helloLambdaResource = this.api.root.addResource('hello');
     helloLambdaResource.addMethod('GET', helloLambdaIntegration);
