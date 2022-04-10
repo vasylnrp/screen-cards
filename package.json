@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/vasylnrp/screen-cards#readme",
   "devDependencies": {
+    "@types/node": "^17.0.23",
     "aws-cdk": "^2.20.0",
     "aws-cdk-lib": "^2.20.0",
     "constructs": "^10.0.109",
