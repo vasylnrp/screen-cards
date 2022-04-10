@@ -3,13 +3,14 @@ import { LambdaIntegration, RestApi } from "aws-cdk-lib/aws-apigateway";
 import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
 import { Construct } from "constructs";
 import { join } from "path";
+import { GenericTable } from "./GenericTable";
 
 export class ScreenCardsStack extends Stack {
   private api = new RestApi(this, 'ScreenCardsApi');
+  private screenCardsTable = new GenericTable(this, 'ScreenCardsTable', 'cardId');
 
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
-
 
     const helloLambda = new Function(this, "helloLambda", {
       runtime: Runtime.NODEJS_14_X,
