@@ -17,6 +17,9 @@ export class GenericTable {
 
   private initialize() {
     this.createTable();
+    this.addSecondaryIndex();
+    this.createLambdas();
+    this.grantTableRights();
   }
   private createTable() {
     this.table = new Table(this.stack, this.name, {
