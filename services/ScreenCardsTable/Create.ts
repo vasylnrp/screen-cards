@@ -5,12 +5,15 @@ import { v4 } from "uuid";
 const dbClient = new DynamoDB.DocumentClient();
 
 async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
+  const item = typeof event.body == 'object' ? event.body : JSON.parse(event.body);
+  item.cardId = v4();
+
   const result: APIGatewayProxyResult = {
     statusCode: 200,
-    body: 'Hello from DynamoDb',
-  }
-  const item = {
-    cardId: v4()
+    body: JSON.stringify({
+      message: 'Item created',
+      id: item.cardId,
+    })
   }
 
   try {

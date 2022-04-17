@@ -1,6 +1,11 @@
 import { handler } from "../../services/ScreenCardsTable/Create"
 
-console.log('step 1')
-const result = handler({} as any, {} as any);
+const event = {
+  body: {
+    location: 'Kyiv',
+  }
+}
+
+const result = handler(event as any, {} as any);
 console.debug(result);
 console.log('step 3')
