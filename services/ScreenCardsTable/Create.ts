@@ -2,6 +2,7 @@ import { DynamoDB } from "aws-sdk";
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from "aws-lambda";
 import { v4 } from "uuid";
 
+const TABLE_NAME = process.env.TABLE_NAME;
 const dbClient = new DynamoDB.DocumentClient();
 
 async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
@@ -18,7 +19,7 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
 
   try {
     await dbClient.put({
-      TableName: 'ScreenCardsTable',
+      TableName: TABLE_NAME!,
       Item: item
     }).promise()
   } catch (error: any) {

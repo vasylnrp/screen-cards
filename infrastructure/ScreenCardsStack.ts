@@ -8,7 +8,11 @@ import { GenericTable } from "./GenericTable";
 
 export class ScreenCardsStack extends Stack {
   private api = new RestApi(this, 'ScreenCardsApi');
-  private screenCardsTable = new GenericTable(this, 'ScreenCardsTable', 'cardId');
+  private screenCardsTable = new GenericTable(this, {
+    tableName: 'ScreenCardsTable',
+    primaryKey: 'cardId',
+    createLambdaPath: 'Create'
+  });
 
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
@@ -24,8 +28,13 @@ export class ScreenCardsStack extends Stack {
       handler: 'handler'
     });
 
+    // Hello Api Lambda integration
     const helloLambdaIntegration = new LambdaIntegration(helloLambda);
     const helloLambdaResource = this.api.root.addResource('hello');
     helloLambdaResource.addMethod('GET', helloLambdaIntegration);
+
+    // Spaces API integrations
+    const spaceResource = this.api.root.addResource('cards');
+    spaceResource.addMethod('POST', this.screenCardsTable.createLambdaIntegration);
   }
 }
