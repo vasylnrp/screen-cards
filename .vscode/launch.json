@@ -16,9 +16,10 @@
         "${relativeFile}"
       ],
       "env": {
-        "AWS_REGION":"eu-central-1",
-        "AWS_PROFILE":"screen-cards",
-        "TABLE_NAME":"ScreenCardsTable",
+        "AWS_REGION": "eu-central-1",
+        "AWS_PROFILE": "screen-cards",
+        "TABLE_NAME": "ScreenCardsTable",
+        "PRIMARY_KEY": "cardId",
       },
     }
   ]

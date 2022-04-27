@@ -11,7 +11,8 @@ export class ScreenCardsStack extends Stack {
   private screenCardsTable = new GenericTable(this, {
     tableName: 'ScreenCardsTable',
     primaryKey: 'cardId',
-    createLambdaPath: 'Create'
+    createLambdaPath: 'Create',
+    readLambdaPath: 'Read',
   });
 
   constructor(scope: Construct, id: string, props: StackProps) {
@@ -36,5 +37,6 @@ export class ScreenCardsStack extends Stack {
     // Spaces API integrations
     const spaceResource = this.api.root.addResource('cards');
     spaceResource.addMethod('POST', this.screenCardsTable.createLambdaIntegration);
+    spaceResource.addMethod('GET', this.screenCardsTable.readLambdaIntegration);
   }
 }

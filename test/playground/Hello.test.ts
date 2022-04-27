@@ -1,15 +1,13 @@
+import { APIGatewayProxyEvent } from "aws-lambda";
 import { handler } from "../../services/ScreenCardsTable/Read"
 
-// const event = {
-//   body: {
-//     location: 'Kyiv',
-//   }
-// }
+const event: APIGatewayProxyEvent = {
+  queryStringParameters: {
+    cardId: 'b55ff89c-da8f-48c4-a4ea-7bda14d64eca',
+  }
+} as any;
 
-// handler(event as any, {} as any)
-//   .then(result => console.debug(result));
-
-const result = handler({} as any, {} as any)
+const result = handler(event, {} as any)
   .then(apiResult => {
     console.debug(apiResult);
     const items = JSON.parse(apiResult.body);
