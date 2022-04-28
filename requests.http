@@ -18,6 +18,6 @@ POST {{endpoint}}/cards/
 Content-Type: application/json
 
 {
-  "location": "Lviv new task",
-  "name": "Best location"
+  "location": "Lviv",
+  "name": "place cofee drink"
 }
