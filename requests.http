@@ -10,6 +10,10 @@ GET {{endpoint}}/cards?cardId=b55ff89c-da8f-48c4-a4ea-7bda14d64eca
 Content-Type: application/json
 
 ###
+GET {{endpoint}}/cards?location=Lviv
+Content-Type: application/json
+
+###
 POST {{endpoint}}/cards/
 Content-Type: application/json
 

@@ -13,6 +13,7 @@ export class ScreenCardsStack extends Stack {
     primaryKey: 'cardId',
     createLambdaPath: 'Create',
     readLambdaPath: 'Read',
+    secondaryIndexes: ['location'],
   });
 
   constructor(scope: Construct, id: string, props: StackProps) {

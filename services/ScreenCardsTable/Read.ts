@@ -1,5 +1,5 @@
 import { DynamoDB } from "aws-sdk";
-import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from "aws-lambda";
+import { APIGatewayProxyEvent, APIGatewayProxyEventQueryStringParameters, APIGatewayProxyResult, Context } from "aws-lambda";
 
 const TABLE_NAME = process.env.TABLE_NAME;
 const PRIMARY_KEY = process.env.PRIMARY_KEY;
@@ -12,17 +12,9 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
     let queryResult;
     if (event.queryStringParameters) {
       if (PRIMARY_KEY! in event.queryStringParameters) {
-        const keyValue = event.queryStringParameters[PRIMARY_KEY!];
-        queryResult = await dbClient.query({
-          TableName: TABLE_NAME!,
-          KeyConditionExpression: '#key = :value',
-          ExpressionAttributeNames: {
-            '#key': PRIMARY_KEY!
-          },
-          ExpressionAttributeValues: {
-            ':value': keyValue
-          }
-        }).promise();
+        queryResult = await queryWithPrimaryPartition(event.queryStringParameters)
+      } else {
+        queryResult = await queryWithSecondaryPartition(event.queryStringParameters)
       }
     } else {
       queryResult = await dbClient.scan({
@@ -40,6 +32,36 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
     }
   }
   return result;
+}
+
+async function queryWithPrimaryPartition(query: APIGatewayProxyEventQueryStringParameters) {
+  const keyValue = query[PRIMARY_KEY!];
+  return await dbClient.query({
+    TableName: TABLE_NAME!,
+    KeyConditionExpression: '#key = :value',
+    ExpressionAttributeNames: {
+      '#key': PRIMARY_KEY!
+    },
+    ExpressionAttributeValues: {
+      ':value': keyValue
+    }
+  }).promise();
+}
+
+async function queryWithSecondaryPartition(query: APIGatewayProxyEventQueryStringParameters) {
+  const queryKey = Object.keys(query)[0];
+  const queryValue = query[queryKey];
+  return await dbClient.query({
+    TableName: TABLE_NAME!,
+    IndexName: queryKey,
+    KeyConditionExpression: '#key = :value',
+    ExpressionAttributeNames: {
+      '#key': queryKey
+    },
+    ExpressionAttributeValues: {
+      ':value': queryValue
+    }
+  }).promise();
 }
 
 export { handler }
