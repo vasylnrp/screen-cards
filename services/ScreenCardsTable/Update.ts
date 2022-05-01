@@ -1,5 +1,5 @@
 import { DynamoDB } from "aws-sdk";
-import { APIGatewayProxyEvent, APIGatewayProxyEventQueryStringParameters, APIGatewayProxyResult, Context } from "aws-lambda";
+import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from "aws-lambda";
 
 const TABLE_NAME = process.env.TABLE_NAME!;
 const PRIMARY_KEY = process.env.PRIMARY_KEY;

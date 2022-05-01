@@ -6,7 +6,7 @@ GET {{endpoint}}/cards/
 Content-Type: application/json
 
 
-@cardId = b842a1b6-35da-4bd3-b2e2-652f3aa3bbfb
+@cardId = 0ab83c4f-9be5-4d0f-91e7-6d872e1bd069
 
 ###
 GET {{endpoint}}/cards?cardId={{cardId}}
@@ -34,5 +34,5 @@ PUT {{endpoint}}/cards/cardId={{cardId}}
 Content-Type: application/json
 
 {
-  "name": "my lovely city"
+  "location": "my lovely city"
 }
