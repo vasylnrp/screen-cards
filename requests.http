@@ -1,8 +1,6 @@
 @endpoint = https://918chlxk51.execute-api.eu-central-1.amazonaws.com/prod
-GET {{endpoint}}/hello/
-###
 
-GET {{endpoint}}/cards/
+GET {{endpoint}}/cards
 Content-Type: application/json
 
 

@@ -8,5 +8,14 @@ export interface ScreenCard {
 export class MissingFieldError extends Error {}
 
 export function validateAsScreeCardEntry(arg: any) {
-  // return
+  const screenCard = arg as ScreenCard;
+  if (!screenCard.name) {
+    throw new MissingFieldError('Value for name is required!');
+  }
+  if (!screenCard.location) {
+    throw new MissingFieldError('Value for location is required!');
+  }
+  if (!screenCard.cardId) {
+    throw new MissingFieldError('Value for id is required!');
+  }
 }
