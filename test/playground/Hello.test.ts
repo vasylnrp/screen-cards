@@ -1,10 +1,12 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
-import { handler } from "../../services/ScreenCardsTable/Read"
+import { handler } from "../../services/ScreenCardsTable/Update"
 
 const event: APIGatewayProxyEvent = {
   queryStringParameters: {
-    // cardId: 'b55ff89c-da8f-48c4-a4ea-7bda14d64eca',
-    location: 'Lviv'
+    cardId: 'b842a1b6-35da-4bd3-b2e2-652f3aa3bbfb'
+  },
+  body: {
+    location: 'Poruchyn'
   }
 } as any;
 

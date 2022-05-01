@@ -5,12 +5,15 @@ GET {{endpoint}}/hello/
 GET {{endpoint}}/cards/
 Content-Type: application/json
 
+
+@cardId = b842a1b6-35da-4bd3-b2e2-652f3aa3bbfb
+
 ###
-GET {{endpoint}}/cards?cardId=b55ff89c-da8f-48c4-a4ea-7bda14d64eca
+GET {{endpoint}}/cards?cardId={{cardId}}
 Content-Type: application/json
 
 ###
-GET {{endpoint}}/cards?location=Lviv
+GET {{endpoint}}/cards?location=Ternopil
 Content-Type: application/json
 
 ###
@@ -20,4 +23,12 @@ Content-Type: application/json
 {
   "location": "Lviv",
   "name": "place cofee drink"
+}
+
+###
+PUT {{endpoint}}/cards/cardId={{cardId}}
+Content-Type: application/json
+
+{
+  "name": "my lovely city"
 }
