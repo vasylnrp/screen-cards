@@ -1,12 +1,18 @@
 @endpoint = https://918chlxk51.execute-api.eu-central-1.amazonaws.com/prod
 
-GET {{endpoint}}/cards
-Content-Type: application/json
-
-
-@cardId = 0ab83c4f-9be5-4d0f-91e7-6d872e1bd069
+# @cardId = 240a5f22-d438-44fd-a0e1-4170a72f7e71
 
 ###
+
+# @name getCards
+GET {{endpoint}}/cards
+Content-Type: application/json
+Accept: application/json
+
+
+
+###
+@cardId = {{getCards.response.body.$.Items[0].$.cardId}}
 GET {{endpoint}}/cards?cardId={{cardId}}
 Content-Type: application/json
 
