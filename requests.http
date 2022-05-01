@@ -17,6 +17,10 @@ GET {{endpoint}}/cards?location=Ternopil
 Content-Type: application/json
 
 ###
+DELETE {{endpoint}}/cards?cardId={{cardId}}
+Content-Type: application/json
+
+###
 POST {{endpoint}}/cards/
 Content-Type: application/json
 

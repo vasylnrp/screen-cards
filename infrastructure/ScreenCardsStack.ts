@@ -13,6 +13,8 @@ export class ScreenCardsStack extends Stack {
     primaryKey: 'cardId',
     createLambdaPath: 'Create',
     readLambdaPath: 'Read',
+    updateLambdaPath: 'Update',
+    deleteLambdaPath: 'Delete',
     secondaryIndexes: ['location'],
   });
 
@@ -38,6 +40,8 @@ export class ScreenCardsStack extends Stack {
     // Spaces API integrations
     const spaceResource = this.api.root.addResource('cards');
     spaceResource.addMethod('POST', this.screenCardsTable.createLambdaIntegration);
+    spaceResource.addMethod('PUT', this.screenCardsTable.updateLambdaIntegration);
     spaceResource.addMethod('GET', this.screenCardsTable.readLambdaIntegration);
+    spaceResource.addMethod('DELETE', this.screenCardsTable.deleteLambdaIntegration);
   }
 }
