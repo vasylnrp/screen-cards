@@ -4,6 +4,7 @@ import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Construct } from "constructs";
 import { join } from "path";
+import { AuthorizerWrapper } from "../services/Auth/AuthorizerWrapper";
 import { GenericTable } from "./GenericTable";
 
 export class ScreenCardsStack extends Stack {
@@ -17,9 +18,11 @@ export class ScreenCardsStack extends Stack {
     deleteLambdaPath: 'Delete',
     secondaryIndexes: ['location'],
   });
+  private authorizerWrapper: AuthorizerWrapper;
 
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
+    this.authorizerWrapper = new AuthorizerWrapper(this, this.api);
 
     // Spaces API integrations
     const spaceResource = this.api.root.addResource('cards');
