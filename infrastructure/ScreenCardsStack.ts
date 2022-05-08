@@ -1,9 +1,6 @@
 import { Stack, StackProps } from "aws-cdk-lib";
-import { LambdaIntegration, RestApi } from "aws-cdk-lib/aws-apigateway";
-import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
-import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
+import { AuthorizationType, MethodOptions, RestApi } from "aws-cdk-lib/aws-apigateway";
 import { Construct } from "constructs";
-import { join } from "path";
 import { AuthorizerWrapper } from "../services/Auth/AuthorizerWrapper";
 import { GenericTable } from "./GenericTable";
 
@@ -24,11 +21,18 @@ export class ScreenCardsStack extends Stack {
     super(scope, id, props);
     this.authorizerWrapper = new AuthorizerWrapper(this, this.api);
 
+    const optionsWithAuthorizer: MethodOptions = {
+      authorizationType: AuthorizationType.COGNITO,
+      authorizer: {
+        authorizerId: this.authorizerWrapper.authorizer.authorizerId,
+      }
+    }
+
     // Spaces API integrations
     const spaceResource = this.api.root.addResource('cards');
+    spaceResource.addMethod('GET', this.screenCardsTable.readLambdaIntegration, optionsWithAuthorizer);
     spaceResource.addMethod('POST', this.screenCardsTable.createLambdaIntegration);
     spaceResource.addMethod('PUT', this.screenCardsTable.updateLambdaIntegration);
-    spaceResource.addMethod('GET', this.screenCardsTable.readLambdaIntegration);
     spaceResource.addMethod('DELETE', this.screenCardsTable.deleteLambdaIntegration);
   }
 }

@@ -1,6 +1,6 @@
 import { CfnOutput } from "aws-cdk-lib";
 import { CognitoUserPoolsAuthorizer, RestApi } from "aws-cdk-lib/aws-apigateway";
-import { UserPool, UserPoolClient } from "aws-cdk-lib/aws-cognito";
+import { CfnUserPoolGroup, UserPool, UserPoolClient } from "aws-cdk-lib/aws-cognito";
 import { Construct } from "constructs";
 
 export class AuthorizerWrapper {
@@ -8,7 +8,7 @@ export class AuthorizerWrapper {
   private api: RestApi;
   private userPool: UserPool;
   private userPoolClient: UserPoolClient;
-  private authorizer: CognitoUserPoolsAuthorizer;
+  public authorizer: CognitoUserPoolsAuthorizer;
 
   constructor(scope: Construct, api: RestApi) {
     this.scope = scope;
@@ -19,6 +19,8 @@ export class AuthorizerWrapper {
   private initialize() {
     this.createUserPool();
     this.addUserPoolClient();
+    this.createAuthorizer();
+    this.createAdminsGroup();
   }
 
   private createUserPool() {
@@ -48,6 +50,22 @@ export class AuthorizerWrapper {
 
     new CfnOutput(this.scope, 'UserPoolClientId', {
       value: this.userPoolClient.userPoolClientId
+    })
+  }
+
+  private createAuthorizer() {
+    this.authorizer = new CognitoUserPoolsAuthorizer(this.scope, 'ScreenCardAuthorizer', {
+      cognitoUserPools: [this.userPool],
+      authorizerName: 'ScreenCardAuthorizer',
+      identitySource: 'method.request.header.Authorization'
+    })
+    this.authorizer._attachToApi(this.api);
+  }
+
+  private createAdminsGroup() {
+    new CfnUserPoolGroup(this.scope, 'admins', {
+      groupName: 'admins',
+      userPoolId: this.userPool.userPoolId
     })
   }
 }
