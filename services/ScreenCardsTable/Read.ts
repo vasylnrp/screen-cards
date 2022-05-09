@@ -8,6 +8,15 @@ const dbClient = new DynamoDB.DocumentClient();
 async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
   let result: APIGatewayProxyResult;
 
+  if (!isAuthorized(event)) {
+    return {
+      statusCode: 401,
+      // TODO: need stringify?
+      // body: JSON.stringify('You are not authorized'),
+      body: 'You are not authorized',
+    }
+  }
+
   try {
     let queryResult;
     if (event.queryStringParameters) {
@@ -32,6 +41,11 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
     }
   }
   return result;
+}
+
+function isAuthorized(event: APIGatewayProxyEvent) {
+  const groups = event.requestContext.authorizer?.claims['cognito:groups'];
+  return (groups && (groups as string).includes('admins'));
 }
 
 async function queryWithPrimaryPartition(query: APIGatewayProxyEventQueryStringParameters) {
