@@ -1,5 +1,6 @@
 import { DynamoDB } from "aws-sdk";
 import { APIGatewayProxyEvent, APIGatewayProxyEventQueryStringParameters, APIGatewayProxyResult, Context } from "aws-lambda";
+import { addCorsHeader } from "../Shared/Utils";
 
 const TABLE_NAME = process.env.TABLE_NAME;
 const PRIMARY_KEY = process.env.PRIMARY_KEY;
@@ -12,7 +13,6 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
     return {
       statusCode: 401,
       // TODO: need stringify?
-      // body: JSON.stringify('You are not authorized'),
       body: 'You are not authorized',
     }
   }
@@ -40,6 +40,7 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
       statusCode: 500,
     }
   }
+  addCorsHeader(result);
   return result;
 }
 

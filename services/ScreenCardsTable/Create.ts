@@ -1,7 +1,7 @@
 import { DynamoDB } from "aws-sdk";
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from "aws-lambda";
 import { MissingFieldError, validateAsScreeCardEntry } from "../Shared/Model";
-import { generateRandomId, getEventBody } from "../Shared/Utils";
+import { addCorsHeader, generateRandomId, getEventBody } from "../Shared/Utils";
 
 const TABLE_NAME = process.env.TABLE_NAME;
 const dbClient = new DynamoDB.DocumentClient();
@@ -17,6 +17,7 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
       id: item.cardId,
     })
   }
+  addCorsHeader(result)
 
   try {
     validateAsScreeCardEntry(item);

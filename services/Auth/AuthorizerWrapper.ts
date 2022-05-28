@@ -7,14 +7,17 @@ import { IdentityPoolWrapper } from "../../infrastructure/auth/IdentityPoolWrapp
 export class AuthorizerWrapper {
   private scope: Construct;
   private api: RestApi;
+  private cardsBucketArn: string;
+
   private userPool: UserPool;
   private userPoolClient: UserPoolClient;
   private identityPoolWrapper: IdentityPoolWrapper
   public authorizer: CognitoUserPoolsAuthorizer;
 
-  constructor(scope: Construct, api: RestApi) {
+  constructor(scope: Construct, api: RestApi, cardsBucketArn: string) {
     this.scope = scope;
     this.api = api;
+    this.cardsBucketArn = cardsBucketArn;
     this.initialize();
   }
 
@@ -44,6 +47,7 @@ export class AuthorizerWrapper {
       this.scope,
       this.userPool,
       this.userPoolClient,
+      this.cardsBucketArn,
     );
   }
 
