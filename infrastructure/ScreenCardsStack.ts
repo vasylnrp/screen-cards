@@ -1,5 +1,5 @@
 import { CfnOutput, Fn, Stack, StackProps } from "aws-cdk-lib";
-import { AuthorizationType, MethodOptions, RestApi } from "aws-cdk-lib/aws-apigateway";
+import { AuthorizationType, Cors, MethodOptions, ResourceOptions, RestApi } from "aws-cdk-lib/aws-apigateway";
 import { Bucket, HttpMethods } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
 import { AuthorizerWrapper } from "../services/Auth/AuthorizerWrapper";
@@ -38,12 +38,19 @@ export class ScreenCardsStack extends Stack {
       }
     }
 
+    const optionsWithCors: ResourceOptions = {
+      defaultCorsPreflightOptions : {
+        allowOrigins: Cors.ALL_ORIGINS,
+        allowMethods: Cors.ALL_METHODS
+      }
+    }
+
     // Spaces API integrations
-    const spaceResource = this.api.root.addResource('cards');
+    const spaceResource = this.api.root.addResource('cards', optionsWithCors);
     spaceResource.addMethod('GET', this.screenCardsTable.readLambdaIntegration, optionsWithAuthorizer);
-    spaceResource.addMethod('POST', this.screenCardsTable.createLambdaIntegration);
-    spaceResource.addMethod('PUT', this.screenCardsTable.updateLambdaIntegration);
-    spaceResource.addMethod('DELETE', this.screenCardsTable.deleteLambdaIntegration);
+    spaceResource.addMethod('POST', this.screenCardsTable.createLambdaIntegration, optionsWithAuthorizer);
+    spaceResource.addMethod('PUT', this.screenCardsTable.updateLambdaIntegration, optionsWithAuthorizer);
+    spaceResource.addMethod('DELETE', this.screenCardsTable.deleteLambdaIntegration, optionsWithAuthorizer);
   }
 
   private initializeSuffix() {
