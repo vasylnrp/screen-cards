@@ -4,6 +4,7 @@ import { Bucket, HttpMethods } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
 import { AuthorizerWrapper } from "../services/Auth/AuthorizerWrapper";
 import { GenericTable } from "./GenericTable";
+import { WebAppDeployment } from "./WebAppDeployment";
 
 export class ScreenCardsStack extends Stack {
   private api = new RestApi(this, 'ScreenCardsApi');
@@ -30,6 +31,7 @@ export class ScreenCardsStack extends Stack {
       this.api,
       this.cardsPhotosBucket.bucketArn + '/*',
     );
+    new WebAppDeployment(this, this.suffix);
 
     const optionsWithAuthorizer: MethodOptions = {
       authorizationType: AuthorizationType.COGNITO,
